@@ -1,0 +1,8 @@
+package com.example
+
+object ClosestPair {
+
+  case class Point(x: Double, y: Double){
+  }
+
+}
