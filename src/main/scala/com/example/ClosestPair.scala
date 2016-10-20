@@ -9,5 +9,9 @@ object ClosestPair {
     points.sortBy(point => point.x)
   }
 
+  def sortPointsByY(points: List[Point]) = {
+    points.sortBy(point => point.y)
+  }
+
 
 }
