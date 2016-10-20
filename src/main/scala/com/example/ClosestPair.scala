@@ -6,6 +6,10 @@ object ClosestPair {
     def distance(p: Point) = math.hypot(x-p.x, y-p.y)
   }
 
+  case class Pair(point1: Point, point2: Point){
+  	
+  }
+
   def sortPointsByX(points: List[Point]) = {
     points.sortBy(point => point.x)
   }

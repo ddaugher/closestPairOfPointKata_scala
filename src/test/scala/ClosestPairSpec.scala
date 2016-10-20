@@ -2,6 +2,7 @@ import scala.collection.mutable.ListBuffer
 import org.scalatest._
 import com.example.ClosestPair
 import com.example.ClosestPair.Point
+import com.example.ClosestPair.Pair
 
 class ClosestPairSpec extends FlatSpec with Matchers {
   "Point" should "have x and y values when created" in {
@@ -29,5 +30,13 @@ class ClosestPairSpec extends FlatSpec with Matchers {
   "Point" should "return distance between two points" in {
   	def point = Point(2.0, 2.0)
   	assert (point.distance(Point(3.0, 3.0)) === 1.4142135623730951)
+  }
+
+  "Pair" should "have two points when created" in {
+  	def point1 = Point(0.00, 0.00)
+  	def point2 = Point(1.00, 1.00)
+  	def pair = Pair(point1, point2)
+  	pair.point1 should === (point1)
+  	pair.point2 should === (point2)
   }
 }
