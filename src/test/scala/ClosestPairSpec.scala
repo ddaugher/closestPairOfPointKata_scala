@@ -39,4 +39,11 @@ class ClosestPairSpec extends FlatSpec with Matchers {
   	pair.point1 should === (point1)
   	pair.point2 should === (point2)
   }
+
+  "Pair" should "return distance between its two points" in {
+  	def point1 = Point(0.00, 0.00)
+  	def point2 = Point(1.00, 1.00)
+  	def pair = Pair(point1, point2)
+  	assert (pair.distance === 1.4142135623730951) 
+  }
 }
