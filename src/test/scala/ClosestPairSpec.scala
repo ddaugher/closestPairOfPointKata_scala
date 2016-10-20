@@ -25,4 +25,9 @@ class ClosestPairSpec extends FlatSpec with Matchers {
   	val points = List[Point](point3, point2, point1)
   	assert (ClosestPair.sortPointsByY(points) === List[Point](point1, point2, point3))
   }
+
+  "Point" should "return distance between two points" in {
+  	def point = Point(2.0, 2.0)
+  	assert (point.distance(Point(3.0, 3.0)) === 1.4142135623730951)
+  }
 }
