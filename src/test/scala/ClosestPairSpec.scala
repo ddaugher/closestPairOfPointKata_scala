@@ -50,4 +50,8 @@ class ClosestPairSpec extends FlatSpec with Matchers {
   "force" should "return None when no points supplied" in {
     assert (ClosestPair.force(List[Point]()) === None)
   }
+
+  "force" should "return None when one Point supplied" in {
+    assert (ClosestPair.force(List[Point](Point(0.00, 1.00))) === None)  
+  }
 }

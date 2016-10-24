@@ -19,9 +19,9 @@ object ClosestPair {
   }
 
   def force(points: List[Point]): Option[Double] = {
-    val e: Option[Double] = None
-    if (points.isEmpty) return e
-    e
+    val distance: Option[Double] = None
+    if (points.size < 2) return distance
+    Option[Double](0.00)
   }
 
 }
