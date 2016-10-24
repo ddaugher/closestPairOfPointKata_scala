@@ -59,4 +59,11 @@ class ClosestPairSpec extends FlatSpec with Matchers {
   "force" should "return proper distance when two Points supplied" in {
     assert (ClosestPair.force(List[Point](Point(0.0, 0.0), Point(1.00, 1.00))).get === 1.4142135623730951)
   }
+
+  "force" should "return proper shortest distance when three Points supplied" in {
+    def point1 = Point(0.00, 0.00)
+    def point2 = Point(1.00, 1.00)
+    def point3 = Point(2.00, 3.00)
+    assert (ClosestPair.force(List[Point](point1, point2, point3)).get === 1.4142135623730951)
+  }
 }

@@ -21,8 +21,21 @@ object ClosestPair {
   def force(points: List[Point]): Option[Double] = {
     val none: Option[Double] = None
     if (points.size < 2) return none
-    val d = Pair(points.head, points.last).distance
-    Option[Double](d)
+
+    type Pair = (Point, Point)
+    val c: Pair => Double = (t) =>  calculatePairValue(t._1, t._2)
+
+    val pairs = for(x <- points; y <- points) yield (x, y)
+    Option[Double](pairs.filter(isNotZero).map(c).min)
+  }
+
+  def calculatePairValue(left: Point, right: Point): Double = {
+    Pair(left, right).distance
+  }
+
+  def isNotZero(pair: (Point, Point)): Boolean = {
+    if (pair._1.distance(pair._2) != 0.0) return true
+    false
   }
 
 }
