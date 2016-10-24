@@ -1,4 +1,5 @@
-import scala.collection.mutable.ListBuffer
+import com.example.ClosestPair
+import com.example.ClosestPair.Point
 import org.scalatest._
 import com.example.ClosestPair
 import com.example.ClosestPair.Point
@@ -44,7 +45,7 @@ class ClosestPairSpec extends FlatSpec with Matchers {
   	def point1 = Point(0.00, 0.00)
   	def point2 = Point(1.00, 1.00)
   	def pair = Pair(point1, point2)
-  	assert (pair.distance === 1.4142135623730951) 
+  	assert (pair.distance === 1.4142135623730951)
   }
 
   "force" should "return None when no points supplied" in {
@@ -53,5 +54,9 @@ class ClosestPairSpec extends FlatSpec with Matchers {
 
   "force" should "return None when one Point supplied" in {
     assert (ClosestPair.force(List[Point](Point(0.00, 1.00))) === None)  
+  }
+
+  "force" should "return proper distance when two Points supplied" in {
+    assert (ClosestPair.force(List[Point](Point(0.0, 0.0), Point(1.00, 1.00))).get === 1.4142135623730951)
   }
 }
