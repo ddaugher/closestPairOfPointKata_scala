@@ -46,4 +46,8 @@ class ClosestPairSpec extends FlatSpec with Matchers {
   	def pair = Pair(point1, point2)
   	assert (pair.distance === 1.4142135623730951) 
   }
+
+  "force" should "return None when no points supplied" in {
+    assert (ClosestPair.force(List[Point]()) === None)
+  }
 }

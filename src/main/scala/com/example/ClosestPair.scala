@@ -18,5 +18,10 @@ object ClosestPair {
     points.sortBy(point => point.y)
   }
 
+  def force(points: List[Point]): Option[Double] = {
+    val e: Option[Double] = None
+    if (points.isEmpty) return e
+    e
+  }
 
 }
