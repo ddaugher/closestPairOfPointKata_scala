@@ -56,23 +56,32 @@ class ClosestPairSpec extends FlatSpec with Matchers {
     assert (ClosestPair.force(List[Point](Point(0.00, 1.00))) === None)  
   }
 
-  "force" should "return proper distance when two Points supplied" in {
-    assert (ClosestPair.force(List[Point](Point(0.0, 0.0), Point(1.00, 1.00))).get === 1.4142135623730951)
+  "force" should "return Pair with same two Points when two Points supplied" in {
+    assert (ClosestPair.force(List[Point](Point(0.0, 0.0), Point(1.00, 1.00))).get === Pair(Point(0.0,0.0),Point(1.0,1.0)))
   }
 
-  "force" should "return proper shortest distance when three Points supplied" in {
+  "force" should "return proper proper Pair when three Points supplied" in {
     def point1 = Point(0.00, 0.00)
     def point2 = Point(1.00, 1.00)
     def point3 = Point(2.00, 3.00)
-    assert (ClosestPair.force(List[Point](point1, point2, point3)).get === 1.4142135623730951)
+    assert (ClosestPair.force(List[Point](point1, point2, point3)).get === Pair(Point(0.0,0.0),Point(1.0,1.0)))
   }
 
-  "force" should "return proper shortest distance when five Points supplied" in {
+  "force" should "return proper Pair when five Points supplied" in {
     def point1 = Point(10.00, 5.00)
     def point2 = Point(11.00, 10.00)
     def point3 = Point(21.00, 30.00)
     def point4 = Point(20.00, 3.00)
     def point5 = Point(2.00, 30.00)
-    assert (ClosestPair.force(List[Point](point1, point2, point3, point4, point5)).get === 5.0990195135927845)
+    assert (ClosestPair.force(List[Point](point1, point2, point3, point4, point5)).get === Pair(Point(10.0,5.0),Point(11.0,10.0)))
   }
+
+//  "divideAndConquer" should "return proper shortest distance" in {
+//    def point1 = Point(10.00, 5.00)
+//    def point2 = Point(11.00, 10.00)
+//    def point3 = Point(21.00, 30.00)
+//    def point4 = Point(20.00, 3.00)
+//    def point5 = Point(2.00, 30.00)
+//    assert (ClosestPair.divideAndConquer(List[Point](point1, point2, point3, point4, point5), List[Point](point1, point2, point3, point4, point5)) === Pair(point1, point2))
+//  }
 }
