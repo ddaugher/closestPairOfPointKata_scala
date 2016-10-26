@@ -76,12 +76,12 @@ class ClosestPairSpec extends FlatSpec with Matchers {
     assert (ClosestPair.force(List[Point](point1, point2, point3, point4, point5)).get === Pair(Point(10.0,5.0),Point(11.0,10.0)))
   }
 
-//  "divideAndConquer" should "return proper shortest distance" in {
-//    def point1 = Point(10.00, 5.00)
-//    def point2 = Point(11.00, 10.00)
-//    def point3 = Point(21.00, 30.00)
-//    def point4 = Point(20.00, 3.00)
-//    def point5 = Point(2.00, 30.00)
-//    assert (ClosestPair.divideAndConquer(List[Point](point1, point2, point3, point4, point5), List[Point](point1, point2, point3, point4, point5)) === Pair(point1, point2))
-//  }
+  "divideAndConquer" should "return proper shortest distance" in {
+    def point1 = Point(10.00, 5.00)
+    def point2 = Point(11.00, 10.00)
+    def point3 = Point(21.00, 30.00)
+    def point4 = Point(20.00, 3.00)
+    def point5 = Point(2.00, 30.00)
+    assert (ClosestPair.divideAndConquer(List[Point](point1, point2, point3, point4, point5)) === Pair(point1, point2))
+  }
 }

@@ -39,39 +39,42 @@ object ClosestPair {
     Option[Pair](pairs.filter(isNotZeroDistance).map(c).sortBy(d => d._2).minBy(m => m._2)._1)
   }
 
-  def divideAndConquer(pointsSortedByX: List[Point], pointsSortedByY: List[Point]): Pair = {
+  def divideAndConquer(list: List[Point]): Option[Pair] = {
+    val pointsSortedByX = sortPointsByX(list)
     val numPoints = pointsSortedByX.size
-//    if(numPoints <= 3) {
-//      return force(pointsSortedByX)
-//    }
+    if(numPoints <= 3) {
+      return force(pointsSortedByX)
+    }
 
-    val dividingIndex = numPoints >>> 1
-    val leftOfCenter = pointsSortedByX.slice(0, dividingIndex)
-    val rightOfCenter = pointsSortedByX.slice(dividingIndex, numPoints)
+    val closestPair = closestPairBetweenHalves(pointsSortedByX)
 
-    var tempList = leftOfCenter.map(x => x)
-    tempList = sortPointsByY(tempList)
-    var closestPair = divideAndConquer(leftOfCenter, tempList)
-
-    tempList = rightOfCenter.map(x => x)
-    tempList = sortPointsByY(tempList)
-
-    val closestPairRight = divideAndConquer(rightOfCenter, tempList)
-
-    if (closestPairRight.distance < closestPair.distance)
-      closestPair = closestPairRight
-
-    tempList = List[Point]()
+    var tempList = List[Point]()
     val shortestDistance = closestPair.distance
-    val centerX = rightOfCenter(0).x
+    val centerX = rightHalfOfList(pointsSortedByX)(0).x
 
-    for (point <- pointsSortedByY) {
+    for (point <- sortPointsByY(list)) {
       if (Math.abs(centerX - point.x) < shortestDistance)
         tempList = tempList :+ point
     }
 
-    closestPair = shortestDistanceF(tempList, shortestDistance, closestPair)
-    closestPair
+    Option[Pair]( shortestDistanceF(tempList, shortestDistance, closestPair) )
+  }
+
+  private def leftHalfOfList(list: List[Point]): List[Point] = {
+    list.slice(0, list.size >>> 1)
+  }
+
+  private def rightHalfOfList(list: List[Point]): List[Point] = {
+    list.slice(list.size >>> 1, list.size)
+  }
+
+  private def closestPairBetweenHalves(list: List[Point]): Pair = {
+    val closestPair = divideAndConquer(leftHalfOfList(list)).get
+    val closestPairRight = divideAndConquer(rightHalfOfList(list)).get
+
+    if (closestPairRight.distance < closestPair.distance)
+      return closestPair
+    closestPairRight
   }
 
   private def shortestDistanceF(tempList: List[Point], shortestDistance: Double, closestPair: Pair ): Pair = {
