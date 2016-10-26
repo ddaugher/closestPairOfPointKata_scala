@@ -19,7 +19,8 @@ object ClosestPair {
   }
 
   def calculateDistanceBetweenPoints(x: Point, y: Point): (Pair, Double) = {
-    (Pair(x,y), Pair(x, y).distance)
+    val pair = Pair(x,y)
+    (pair, pair.distance)
   }
 
   def isNotZeroDistance(pair: (Point, Point)): Boolean = {
