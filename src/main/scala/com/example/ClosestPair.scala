@@ -45,6 +45,7 @@ object ClosestPair {
     }
 
     val closestPair = closestPairBetweenHalves(sortPointsByX(list))
+
     def pointFilter(point: Point): Boolean = {
       if (Math.abs(rightHalfOfList(sortPointsByX(list))(0).x - point.x) < closestPair.distance) return true
       false
@@ -52,8 +53,29 @@ object ClosestPair {
 
     val tempList = sortPointsByY(list).filter(pointFilter)
 
-    Option[Pair](shortestDistanceF(tempList, closestPair.distance, closestPair))
+    def shortestVerticalOverlap(list: List[Point], shortestDistance: Double, closestPair: Pair): Pair = {
+
+      def distance(left: Point, right: Point): Pair = {
+        if ((right.y - left.y) >= shortestDistance)
+          return Pair(closestPair.point1, closestPair.point2)
+
+        if ((left distance right) < closestPair.distance) {
+          return Pair(left, right)
+        }
+
+        Pair(closestPair.point1, closestPair.point2)
+      }
+
+      type p = (Point, Point)
+      val d: p => Pair = (t) => distance(t._1, t._2)
+
+      list.sliding(2, 1).map { case List(a, b) => (a, b) }.toList.map(d).sortBy(_.distance).minBy(_.distance)
+    }
+
+    Option[Pair](shortestVerticalOverlap(tempList, closestPair.distance, closestPair))
   }
+
+
 
   private def leftHalfOfList(list: List[Point]): List[Point] = {
     list.slice(0, list.size >>> 1)
@@ -70,26 +92,6 @@ object ClosestPair {
     if (closestPairRight.distance < closestPair.distance)
       return closestPair
     closestPairRight
-  }
-
-  private def shortestDistanceF(tempList: List[Point], shortestDistance: Double, closestPair: Pair): Pair = {
-    var shortest = shortestDistance
-    var bestResult = closestPair
-    for (i <- 0 until tempList.size) {
-      val point1 = tempList(i)
-      for (j <- i + 1 until tempList.size) {
-        val point2 = tempList(j)
-        if ((point2.y - point1.y) >= shortestDistance)
-          return closestPair
-        val distance = point1 distance point2
-        if (distance < closestPair.distance) {
-          bestResult = Pair(point1, point2)
-          shortest = distance
-        }
-      }
-    }
-
-    closestPair
   }
 
 }
