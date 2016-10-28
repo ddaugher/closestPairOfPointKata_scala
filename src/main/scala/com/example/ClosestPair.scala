@@ -2,6 +2,9 @@ package com.example
 
 object ClosestPair {
 
+  final val SIZE_OF_TUPLE:Int = 2
+  final val BRUTEFORCE_THRESHHOLD:Int = 3
+
   case class Point(x: Double, y: Double) {
     def distance(point: Point) = math.hypot(x - point.x, y - point.y)
   }
@@ -32,15 +35,15 @@ object ClosestPair {
       (pair, pair.distance)
     }
 
-    type p = (Point, Point)
-    val c: p => (Pair, Double) = (t) => distanceBetweenTwoPoints(t._1, t._2)
+    type pair = (Point, Point)
+    val d: pair => (Pair, Double) = (t) => distanceBetweenTwoPoints(t._1, t._2)
 
     val pairs = for (x <- points; y <- points) yield (x, y)
-    Option[Pair](pairs.filter(isDistanceGreaterThanZero).map(c).sortBy(distance => distance._2).minBy(distance => distance._2)._1)
+    Option[Pair](pairs.filter(isDistanceGreaterThanZero).map(d).sortBy(distance => distance._2).minBy(distance => distance._2)._1)
   }
 
   def divideAndConquer(points: List[Point]): Option[Pair] = {
-    if (points.size <= 3) {
+    if (points.size <= BRUTEFORCE_THRESHHOLD) {
       return bruteForce(points)
     }
 
@@ -50,8 +53,6 @@ object ClosestPair {
       if (Math.abs(rightHalfOfList(sortPointsByX(points))(0).x - point.x) < closestPair.distance) return true
       false
     }
-
-    val tempList = sortPointsByY(points).filter(pointFilter)
 
     def shortestVerticalOverlap(points: List[Point], shortestDistance: Double, closestPair: Pair): Pair = {
 
@@ -66,32 +67,30 @@ object ClosestPair {
         Pair(closestPair.point1, closestPair.point2)
       }
 
-      type p = (Point, Point)
-      val d: p => Pair = (t) => distance(t._1, t._2)
+      type pair = (Point, Point)
+      val d: pair => Pair = (t) => distance(t._1, t._2)
 
-      points.sliding(2, 1).map { case List(a, b) => (a, b) }.toList.map(d).sortBy(_.distance).minBy(_.distance)
+      points.sliding(SIZE_OF_TUPLE, 1).map { case List(a, b) => (a, b) }.toList.map(d).sortBy(_.distance).minBy(_.distance)
     }
 
-    Option[Pair](shortestVerticalOverlap(tempList, closestPair.distance, closestPair))
+    Option[Pair](shortestVerticalOverlap(sortPointsByY(points).filter(pointFilter), closestPair.distance, closestPair))
   }
 
-
-
-  private def leftHalfOfList(points: List[Point]): List[Point] = {
+  def leftHalfOfList(points: List[Point]): List[Point] = {
     points.slice(0, points.size >>> 1)
   }
 
-  private def rightHalfOfList(points: List[Point]): List[Point] = {
+  def rightHalfOfList(points: List[Point]): List[Point] = {
     points.slice(points.size >>> 1, points.size)
   }
 
   private def closestPairBetweenHalves(points: List[Point]): Pair = {
-    val closestPair = divideAndConquer(leftHalfOfList(points)).get
-    val closestPairRight = divideAndConquer(rightHalfOfList(points)).get
+    val closestLeftPair = divideAndConquer(leftHalfOfList(points)).get
+    val closestRightPair = divideAndConquer(rightHalfOfList(points)).get
 
-    if (closestPairRight.distance < closestPair.distance)
-      return closestPair
-    closestPairRight
+    if (closestRightPair.distance < closestLeftPair.distance)
+      return closestLeftPair
+    closestRightPair
   }
 
 }
