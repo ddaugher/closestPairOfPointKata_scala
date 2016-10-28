@@ -2,11 +2,11 @@ package com.example
 
 object ClosestPair {
 
-  case class Point(x: Double, y: Double){
-    def distance(p: Point) = math.hypot(x-p.x, y-p.y)
+  case class Point(x: Double, y: Double) {
+    def distance(p: Point) = math.hypot(x - p.x, y - p.y)
   }
 
-  case class Pair(point1: Point, point2: Point){
+  case class Pair(point1: Point, point2: Point) {
     val distance: Double = point1 distance point2
   }
 
@@ -19,7 +19,7 @@ object ClosestPair {
   }
 
   def calculateDistanceBetweenPoints(x: Point, y: Point): (Pair, Double) = {
-    val pair = Pair(x,y)
+    val pair = Pair(x, y)
     (pair, pair.distance)
   }
 
@@ -35,29 +35,24 @@ object ClosestPair {
     type p = (Point, Point)
     val c: p => (Pair, Double) = (t) => calculateDistanceBetweenPoints(t._1, t._2)
 
-    val pairs = for(x <- points; y <- points) yield (x, y)
-    Option[Pair](pairs.filter(isNotZeroDistance).map(c).sortBy(d => d._2).minBy(m => m._2)._1)
+    val pairs = for (x <- points; y <- points) yield (x, y)
+    Option[Pair](pairs.filter(isNotZeroDistance).map(c).sortBy(distance => distance._2).minBy(distance => distance._2)._1)
   }
 
   def divideAndConquer(list: List[Point]): Option[Pair] = {
-    val pointsSortedByX = sortPointsByX(list)
-    val numPoints = pointsSortedByX.size
-    if(numPoints <= 3) {
-      return force(pointsSortedByX)
+    if (list.size <= 3) {
+      return force(list)
     }
 
-    val closestPair = closestPairBetweenHalves(pointsSortedByX)
-
-    var tempList = List[Point]()
-    val shortestDistance = closestPair.distance
-    val centerX = rightHalfOfList(pointsSortedByX)(0).x
-
-    for (point <- sortPointsByY(list)) {
-      if (Math.abs(centerX - point.x) < shortestDistance)
-        tempList = tempList :+ point
+    val closestPair = closestPairBetweenHalves(sortPointsByX(list))
+    def pointFilter(point: Point): Boolean = {
+      if (Math.abs(rightHalfOfList(sortPointsByX(list))(0).x - point.x) < closestPair.distance) return true
+      false
     }
 
-    Option[Pair]( shortestDistanceF(tempList, shortestDistance, closestPair) )
+    val tempList = sortPointsByY(list).filter(pointFilter)
+
+    Option[Pair](shortestDistanceF(tempList, closestPair.distance, closestPair))
   }
 
   private def leftHalfOfList(list: List[Point]): List[Point] = {
@@ -77,7 +72,7 @@ object ClosestPair {
     closestPairRight
   }
 
-  private def shortestDistanceF(tempList: List[Point], shortestDistance: Double, closestPair: Pair ): Pair = {
+  private def shortestDistanceF(tempList: List[Point], shortestDistance: Double, closestPair: Pair): Pair = {
     var shortest = shortestDistance
     var bestResult = closestPair
     for (i <- 0 until tempList.size) {
@@ -87,8 +82,7 @@ object ClosestPair {
         if ((point2.y - point1.y) >= shortestDistance)
           return closestPair
         val distance = point1 distance point2
-        if (distance < closestPair.distance)
-        {
+        if (distance < closestPair.distance) {
           bestResult = Pair(point1, point2)
           shortest = distance
         }
