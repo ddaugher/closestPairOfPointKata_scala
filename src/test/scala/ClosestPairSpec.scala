@@ -1,5 +1,3 @@
-import com.example.ClosestPair
-import com.example.ClosestPair.Point
 import org.scalatest._
 import com.example.ClosestPair
 import com.example.ClosestPair.Point
