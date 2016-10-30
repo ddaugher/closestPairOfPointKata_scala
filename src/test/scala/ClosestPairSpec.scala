@@ -15,7 +15,7 @@ class ClosestPairSpec extends FlatSpec with Matchers {
   	def point2 = Point(1.00, 1.00)
   	def point3 = Point(2.00, 2.00)
   	val points = List[Point](point3, point2, point1)
-  	assert (ClosestPair.sortPointsByX(points) === List[Point](point1, point2, point3))
+    ClosestPair.sortPointsByX(points) should === (List[Point](point1, point2, point3))
   }
 
   "ClosestPair" should "sort list of Points by y" in {
@@ -23,7 +23,7 @@ class ClosestPairSpec extends FlatSpec with Matchers {
   	def point2 = Point(1.00, 1.00)
   	def point3 = Point(2.00, 2.00)
   	val points = List[Point](point3, point2, point1)
-  	assert (ClosestPair.sortPointsByY(points) === List[Point](point1, point2, point3))
+  	ClosestPair.sortPointsByY(points) should === (List[Point](point1, point2, point3))
   }
 
   "leftHalfOfList" should "return first point when list of three provided" in {
@@ -32,9 +32,8 @@ class ClosestPairSpec extends FlatSpec with Matchers {
     def point3 = Point(2.00, 2.00)
     val points = List[Point](point3, point2, point1)
     val leftHalf = ClosestPair.leftHalfOfList(points)
-    assert (leftHalf.size ===
-      1)
-    assert (true === leftHalf.contains(point3))
+    leftHalf.size should === (1)
+    true should === (leftHalf.contains(point3))
   }
 
   "leftHalfOfList" should "return first two points when list of four provided" in {
@@ -44,9 +43,32 @@ class ClosestPairSpec extends FlatSpec with Matchers {
     def point4 = Point(3.00, 3.00)
     val points = List[Point](point4, point3, point2, point1)
     val leftHalf = ClosestPair.leftHalfOfList(points)
-    assert (leftHalf.size === 2)
-    assert (true === leftHalf.contains(point4))
-    assert (true === leftHalf.contains(point3))
+    leftHalf.size should === (2)
+    true should === (leftHalf.contains(point4))
+    true should === (leftHalf.contains(point3))
+  }
+
+  "rightHalfOfList" should "return last two points when list of three provided" in {
+    def point1 = Point(0.00, 0.00)
+    def point2 = Point(1.00, 1.00)
+    def point3 = Point(2.00, 2.00)
+    val points = List[Point](point3, point2, point1)
+    val rightHalf = ClosestPair.rightHalfOfList(points)
+    rightHalf.size should === (2)
+    true should === (rightHalf.contains(point1))
+    true should === (rightHalf.contains(point2))
+  }
+
+  "rightHalfOfList" should "return last two points when list of four provided" in {
+    def point1 = Point(0.00, 0.00)
+    def point2 = Point(1.00, 1.00)
+    def point3 = Point(2.00, 2.00)
+    def point4 = Point(3.00, 3.00)
+    val points = List[Point](point4, point3, point2, point1)
+    val rightHalf = ClosestPair.rightHalfOfList(points)
+    rightHalf.size should === (2)
+    true should === (rightHalf.contains(point1))
+    true should === (rightHalf.contains(point2))
   }
 
   "Point" should "return distance between two points" in {
@@ -66,26 +88,26 @@ class ClosestPairSpec extends FlatSpec with Matchers {
   	def point1 = Point(0.00, 0.00)
   	def point2 = Point(1.00, 1.00)
   	def pair = Pair(point1, point2)
-  	assert (pair.distance === 1.4142135623730951)
+  	pair.distance should === (1.4142135623730951)
   }
 
   "bruteForce" should "return None when no points supplied" in {
-    assert (ClosestPair.bruteForce(List[Point]()) === None)
+    ClosestPair.bruteForce(List[Point]()) should === (None)
   }
 
   "bruteForce" should "return None when one Point supplied" in {
-    assert (ClosestPair.bruteForce(List[Point](Point(0.00, 1.00))) === None)
+    ClosestPair.bruteForce(List[Point](Point(0.00, 1.00))) should === (None)
   }
 
   "bruteForce" should "return Pair with same two Points when two Points supplied" in {
-    assert (ClosestPair.bruteForce(List[Point](Point(0.0, 0.0), Point(1.00, 1.00))).get === Pair(Point(0.0,0.0),Point(1.0,1.0)))
+    ClosestPair.bruteForce(List[Point](Point(0.0, 0.0), Point(1.00, 1.00))).get should === (Pair(Point(0.0,0.0),Point(1.0,1.0)))
   }
 
   "bruteForce" should "return proper proper Pair when three Points supplied" in {
     def point1 = Point(0.00, 0.00)
     def point2 = Point(1.00, 1.00)
     def point3 = Point(2.00, 3.00)
-    assert (ClosestPair.bruteForce(List[Point](point1, point2, point3)).get === Pair(Point(0.0,0.0),Point(1.0,1.0)))
+    ClosestPair.bruteForce(List[Point](point1, point2, point3)).get should === (Pair(Point(0.0,0.0),Point(1.0,1.0)))
   }
 
   "bruteForce" should "return proper Pair when five Points supplied" in {
@@ -94,7 +116,7 @@ class ClosestPairSpec extends FlatSpec with Matchers {
     def point3 = Point(21.00, 30.00)
     def point4 = Point(20.00, 3.00)
     def point5 = Point(2.00, 30.00)
-    assert (ClosestPair.bruteForce(List[Point](point1, point2, point3, point4, point5)).get === Pair(Point(10.0,5.0),Point(11.0,10.0)))
+    ClosestPair.bruteForce(List[Point](point1, point2, point3, point4, point5)).get should === (Pair(Point(10.0,5.0),Point(11.0,10.0)))
   }
 
   "divideAndConquer" should "return proper shortest distance" in {
@@ -103,13 +125,13 @@ class ClosestPairSpec extends FlatSpec with Matchers {
     def point3 = Point(10.00, 10.00)
     def point4 = Point(-10.00, -10.00)
     def point5 = Point(-20.00, -20.00)
-    assert (ClosestPair.divideAndConquer(List[Point](point1, point2, point3, point4, point5)).get === Pair(point1, point2))
+    ClosestPair.divideAndConquer(List[Point](point1, point2, point3, point4, point5)).get should === (Pair(point1, point2))
   }
 
   "divideAndConquer" should "return closest points, utilizing 'bruteForce' method when number of points equal 3" in {
     def point1 = Point(10.00, 5.00)
     def point2 = Point(11.00, 10.00)
     def point3 = Point(21.00, 30.00)
-    assert (ClosestPair.divideAndConquer(List[Point](point1, point2, point3)).get === Pair(point1, point2))
+    ClosestPair.divideAndConquer(List[Point](point1, point2, point3)).get should === (Pair(point1, point2))
   }
 }
