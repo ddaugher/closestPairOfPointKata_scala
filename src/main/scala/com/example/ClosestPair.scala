@@ -2,8 +2,8 @@ package com.example
 
 object ClosestPair {
 
-  final val SIZE_OF_TUPLE:Int = 2
-  final val BRUTEFORCE_THRESHHOLD:Int = 3
+  final val SIZE_OF_TUPLE: Int = 2
+  final val BRUTEFORCE_THRESHHOLD: Int = 3
 
   case class Point(x: Double, y: Double) {
     def distance(point: Point) = math.hypot(x - point.x, y - point.y)
@@ -22,11 +22,14 @@ object ClosestPair {
     }
 
     type pair = (Point, Point)
-    val d: pair => Pair = { case (point1, point2) => Pair(point1, point2)}
+    val d: pair => Pair = {
+      case (point1, point2) => Pair(point1, point2)
+    }
 
     val pairs = for {
       x <- points
-      y <- points if isDistanceGreaterThanZero((x,y))
+      y <- points
+      if isDistanceGreaterThanZero((x, y))
     } yield (x, y)
 
     Option[Pair](pairs.map(d).minBy(_.distance))
@@ -57,7 +60,9 @@ object ClosestPair {
       }
 
       type _pair = (Point, Point)
-      val d: _pair => Pair = { case (x,y) => _closestPair(x,y)}
+      val d: _pair => Pair = {
+        case (x, y) => _closestPair(x, y)
+      }
 
       points.sliding(SIZE_OF_TUPLE, 1).map { case List(a, b) => (a, b) }.toList.map(d).minBy(_.distance)
     }
@@ -66,11 +71,13 @@ object ClosestPair {
   }
 
   def leftHalfOfList(points: List[Point]): List[Point] = {
-    points.slice(0, points.size >>> 1)
+    val (left, right) = points.splitAt(points.size / 2)
+    left
   }
 
   def rightHalfOfList(points: List[Point]): List[Point] = {
-    points.slice(points.size >>> 1, points.size)
+    val (left, right) = points.splitAt(points.size / 2)
+    right
   }
 
   private def closestPairBetweenHalves(points: List[Point]): Pair = {

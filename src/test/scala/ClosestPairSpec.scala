@@ -32,6 +32,19 @@ class ClosestPairSpec extends FlatSpec with Matchers {
     true should === (leftHalf.contains(point3))
   }
 
+  "leftHalfOfList" should "return first two points when list of five provided" in {
+    def point1 = Point(0.00, 0.00)
+    def point2 = Point(1.00, 1.00)
+    def point3 = Point(2.00, 2.00)
+    def point4 = Point(3.00, 3.00)
+    def point5 = Point(4.00, 4.00)
+    val points = List[Point](point5, point4, point3, point2, point1)
+    val leftHalf = ClosestPair.leftHalfOfList(points)
+    leftHalf.size should === (2)
+    true should === (leftHalf.contains(point5))
+    true should === (leftHalf.contains(point4))
+  }
+
   "rightHalfOfList" should "return last two points when list of three provided" in {
     def point1 = Point(0.00, 0.00)
     def point2 = Point(1.00, 1.00)
@@ -53,6 +66,20 @@ class ClosestPairSpec extends FlatSpec with Matchers {
     rightHalf.size should === (2)
     true should === (rightHalf.contains(point1))
     true should === (rightHalf.contains(point2))
+  }
+
+  "rightHalfOfList" should "return last three points when list of five provided" in {
+    def point1 = Point(0.00, 0.00)
+    def point2 = Point(1.00, 1.00)
+    def point3 = Point(2.00, 2.00)
+    def point4 = Point(3.00, 3.00)
+    def point5 = Point(3.00, 3.00)
+    val points = List[Point](point5, point4, point3, point2, point1)
+    val rightHalf = ClosestPair.rightHalfOfList(points)
+    rightHalf.size should === (3)
+    true should === (rightHalf.contains(point1))
+    true should === (rightHalf.contains(point2))
+    true should === (rightHalf.contains(point3))
   }
 
   "Point" should "return distance between two points" in {
