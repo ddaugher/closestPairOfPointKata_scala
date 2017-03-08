@@ -14,7 +14,7 @@ object ClosestPair {
   }
 
   def bruteForce(points: List[Point]): Option[Pair] = {
-    if (points.size < 2) return Option.empty[Pair]
+    if (points.size < SIZE_OF_TUPLE) return Option.empty[Pair]
 
     def isDistanceGreaterThanZero(pair: (Point, Point)): Boolean = {
       if ((pair._1 distance pair._2) > 0.0) return true
