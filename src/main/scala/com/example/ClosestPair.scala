@@ -27,10 +27,10 @@ object ClosestPair {
     }
 
     val pairs = for {
-      x <- points
-      y <- points
-      if isDistanceGreaterThanZero((x, y))
-    } yield (x, y)
+      point1 <- points
+      point2 <- points
+      if isDistanceGreaterThanZero((point1, point2))
+    } yield (point1, point2)
 
     Option[Pair](pairs.map(d).minBy(_.distance))
   }

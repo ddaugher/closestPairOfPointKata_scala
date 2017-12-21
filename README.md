@@ -29,3 +29,7 @@ As a pre-processing step, input array is sorted according to x coordinates.
 6) Find the smallest distance in strip[]. This is tricky. From first look, it seems to be a O(n^2) step, but it is actually O(n). It can be proved geometrically that for every point in strip, we only need to check at most 7 points after it (note that strip is sorted according to Y coordinate). See this for more analysis.
 
 7) Finally return the minimum of d and distance calculated in above step (step 6)
+
+**Executing the tests**
+
+==> sbt test
